@@ -159,8 +159,8 @@ int main()
 			}
 
 			// Update drawings for winning screen
-			DrawText("YOU WON!", ((screen_width / 2) - 450), (screen_height / 2.5), 200, YELLOW);
-			DrawText("Press Spacebar to play again.", 200, ((screen_height / 2) + 200), 100, YELLOW);
+			DrawText("YOU WON!", ((screen_width / 2) - 450), ((screen_height / 2) - 200), 200, YELLOW);
+			DrawText("Press Spacebar to play again.", 200, ((screen_height / 2) + 150), 100, YELLOW);
 			
 			// Reset game if player chooses to
 			if (IsKeyPressed(KEY_SPACE))
@@ -184,8 +184,8 @@ int main()
 			}
 
 			// Update drawings for losing screen
-			DrawText("YOU LOST!", ((screen_width / 2) - 500), (screen_height / 2.5), 200, YELLOW);
-			DrawText("Press Spacebar to play again.", 200, ((screen_height / 2) + 200), 100, YELLOW);
+			DrawText("YOU LOST!", ((screen_width / 2) - 500), ((screen_height / 2) - 200), 200, YELLOW);
+			DrawText("Press Spacebar to play again.", 200, ((screen_height / 2) + 150), 100, YELLOW);
 			
 			// Reset game if player chooses to
 			if (IsKeyPressed(KEY_SPACE))
@@ -202,7 +202,8 @@ int main()
 
 		// Draw the arena for game to take place
 		DrawRectangleLines(25, 25, (screen_width - 50), (screen_height - 50), YELLOW);
-		DrawLine((screen_width / 2), 0, (screen_width / 2), screen_height, YELLOW);
+		if (win_fx == false && lose_fx == false)
+			DrawLine((screen_width / 2), 0, (screen_width / 2), screen_height, YELLOW);
 		DrawText(TextFormat("%d", player_score), ((screen_width/2) - 125), 75, 100, YELLOW);
 		DrawText(TextFormat("%d", cpu_score), ((screen_width / 2) + 75), 75, 100, YELLOW);
 		
