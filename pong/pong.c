@@ -42,8 +42,8 @@ int main()
 
 	// Initializing struct objects
 	struct PlayerPaddle player = { 50.0, 200.0, 75.0, ((screen_height / 2) - (200.0/2)) };
-	struct CPUPaddle cpu = { 50.0, 200.0, (screen_width - (75.0 * 1.5)), ((screen_height / 2) - (200.0 / 2)), 8.0 };
-	struct Ball game_ball = { (screen_width / 2), (screen_height / 2), 15.0, 14.0, 14.0 };
+	struct CPUPaddle cpu = { 50.0, 200.0, (screen_width - (75.0 * 1.5)), ((screen_height / 2) - (200.0 / 2)), 600.0 };
+	struct Ball game_ball = { (screen_width / 2), (screen_height / 2), 15.0, 1000.0, 960.0 };
 	
 	// Setting variables to track game score and result music
 	int player_score = 0;
@@ -62,22 +62,25 @@ int main()
 
 	// Setting up window along with frames
 	InitWindow(screen_width, screen_height, "PONG!");
-	int refresh_rate = GetMonitorRefreshRate(GetCurrentMonitor());
-	SetTargetFPS(refresh_rate);
+	SetTargetFPS(120);
+	float dt = 0.0;
 
 	/*   Main Game Loop   */
 
 	while (!WindowShouldClose())
 	{
+		
+		dt = GetFrameTime();
+
 		/*   User Input   */
 		if (IsKeyDown(KEY_W) && player.y >= 0)  // Allow user to move their paddle up with 'W' key
 		{
-			player.y -= 10;
+			player.y -= 840 * dt;
 		}
 
 		if (IsKeyDown(KEY_S) && player.y <= (screen_height - player.height)) // Allow user to move paddle down with 'S' key
 		{
-			player.y += 10;
+			player.y += 840 * dt;
 		}
 
 		/*   Update Game Objects   */
@@ -107,10 +110,10 @@ int main()
 
 		// Establish a simple AI for the opponent paddle to move with
 		if (game_ball.y < (cpu.y + (cpu.height/2)) && cpu.y >= 0)
-			cpu.y -= cpu.cpu_speed;
+			cpu.y -= cpu.cpu_speed * dt;
 
 		if (game_ball.y > (cpu.y + (cpu.height / 2)) && cpu.y <= (screen_height - cpu.height))
-			cpu.y += cpu.cpu_speed;
+			cpu.y += cpu.cpu_speed * dt;
 		
 
 		/*   Begin Drawings and Update Music Buffer   */
@@ -125,8 +128,8 @@ int main()
 		if (player_score < GAME_WIN && cpu_score < GAME_WIN)
 		{
 			// Keep ball moving while game is going
-			game_ball.x += (game_ball.x_speed);
-			game_ball.y += (game_ball.y_speed);
+			game_ball.x += (game_ball.x_speed) * dt;
+			game_ball.y += (game_ball.y_speed) * dt;
 
 			if (game_ball.x <= 0)  // Update score if CPU wins point
 			{
